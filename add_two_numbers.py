@@ -53,11 +53,18 @@ s2 = ListNode(val=1, next=s1)
 s3 = ListNode(val=2, next=s2)
 
 test = Solution()
-ans = test.addTwoNumbers(f3, s3)
+#ans = test.addTwoNumbers(f3, s3)
 
 # 105 + 0 = 105
 zero = ListNode()
 #ans = test.addTwoNumbers(f3, zero)
+
+# 105 + 9245 = 9350
+t1 = ListNode(val=9)
+t2 = ListNode(val=2, next=t1)
+t3 = ListNode(val=4, next=t2)
+t4 = ListNode(val=5, next = t3)
+ans = test.addTwoNumbers(f3, t4)
 
 while(ans != None):
     print(ans.val)
