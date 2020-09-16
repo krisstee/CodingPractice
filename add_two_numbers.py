@@ -12,14 +12,17 @@ class Solution:
         lastNode = ListNode()
         carryover = -100
 
-        while(l1 != None and l2 != None):
+        while(l1 != None or l2 != None):
             if l1 == None:
                 v1 = 0
-            elif l2 == None:
-                v2 = 0
             else:
                 v1 = l1.val
+            if l2 == None:
+                v2 = 0
+            else:
                 v2 = l2.val
+            #print("v1: %s" % v1)
+            #print("v2: %s" % v2)
             sum = v1 + v2
             ones = sum % 10
             tens = sum // 10
@@ -51,6 +54,10 @@ s3 = ListNode(val=2, next=s2)
 
 test = Solution()
 ans = test.addTwoNumbers(f3, s3)
+
+# 105 + 0 = 105
+zero = ListNode()
+#ans = test.addTwoNumbers(f3, zero)
 
 while(ans != None):
     print(ans.val)
