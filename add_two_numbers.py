@@ -8,6 +8,17 @@ class Solution:
         # Account for either of the numbers is an empty node
         if(l1.val == None or l2.val == None):
             return(ListNode())
+        # Account for if both numbers are a single digit
+        if(l1.next == None and l2.next == None):
+            sum = l1.val + l2.val
+            ones = sum % 10
+            tens = sum // 10
+            if(tens != 0):
+                last = ListNode(val=tens)
+                head = ListNode(val=ones, next=last)
+            else:
+                head = ListNode(val=ones)
+            return(head)
 
         lastNode = ListNode()
         carryover = -100
@@ -23,24 +34,37 @@ class Solution:
                 v2 = l2.val
             #print("v1: %s" % v1)
             #print("v2: %s" % v2)
+            #print("carryover: %s" % carryover)
             sum = v1 + v2
+            #print("sum: %s" % sum)
             ones = sum % 10
             tens = sum // 10
             # Build the answer
             if(lastNode.val == 0 and lastNode.next == None and carryover == -100):
                 lastNode.val = ones
+                headNode = lastNode
             else:
-                new_place = ListNode(val=(sum + carryover), next=lastNode)
+                new_place = ListNode(val=(ones + carryover))
+                # Ensure that new_place's value isn't double digit
+                if(new_place.val // 10 != 0):
+                    tens = new_place.val // 10
+                    new_place.val = new_place.val % 10
+                lastNode.next = new_place
                 lastNode = new_place
             carryover = tens
 
-            # Movet to next node
+            # Move to next node
             if(l1 != None):
                 l1 = l1.next
             if(l2 != None):
                 l2 = l2.next
 
-        return(lastNode)
+        # Determine if there's any carryover we need to add a node for
+        if(carryover != 0):
+            last = ListNode(val=carryover)
+            lastNode.next = last
+
+        return(headNode)
 
 # Create test cases
 # 105 + 212 = 317
@@ -53,7 +77,7 @@ s2 = ListNode(val=1, next=s1)
 s3 = ListNode(val=2, next=s2)
 
 test = Solution()
-#ans = test.addTwoNumbers(f3, s3)
+ans = test.addTwoNumbers(f3, s3)
 
 # 105 + 0 = 105
 zero = ListNode()
@@ -64,7 +88,15 @@ t1 = ListNode(val=9)
 t2 = ListNode(val=2, next=t1)
 t3 = ListNode(val=4, next=t2)
 t4 = ListNode(val=5, next = t3)
-ans = test.addTwoNumbers(f3, t4)
+
+#Leetcode test [8,9,9] + [2] = [0,0,0,1]
+l3 = ListNode(val=9)
+l2 = ListNode(val=9, next=l3)
+l1 = ListNode(val=8, next=l2)
+
+two = ListNode(val=2)
+
+#ans = test.addTwoNumbers(f3, t4)
 
 while(ans != None):
     print(ans.val)
